@@ -26,7 +26,7 @@ $ffmpeg_location = ""
 
 # Sanity check
 
-Write-Output "[ChatGen] Version 1.0 by Strom"
+Write-Output "[ChatGen] Version 1.1 by Strom"
 
 if ($twitch_dowloader_location -eq "") {
     Write-Output "You need to provide the TwitchDownloaderCLI binary location!"
@@ -77,9 +77,11 @@ $end_m = [int]$end_match.Groups[2].Value
 $end_s = [int]$end_match.Groups[3].Value
 $end_secs = $end_h * 3600 + $end_m * 60 + $end_s
 
-$file_name = [string]$id + " " + [string]$start_secs + "-" + [string]$end_secs
+$file_name = [string]$start_h + "." + [string]$start_m + "." + [string]$start_s + " - " + [string]$end_h + "." + [string]$end_m + "." + [string]$end_s
 if ($name -ne $null) {
     $file_name = $name + " " + $file_name
+} else {
+    $file_name = [string]$id + " " + $file_name
 }
 
 $json_name = $file_name + ".json"
