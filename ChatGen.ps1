@@ -19,47 +19,76 @@ param (
     $end
 )
 
-# Configuration
+# Configuration - make sure this is filled out based on your setup!
 
+# e.g. C:\Program Files\TwitchDownloader\TwitchDownloaderCLI.exe
 $twitch_dowloader_location = ""
+# e.g. D:\Apps\ffmpeg\bin\ffmpeg.exe
 $ffmpeg_location = ""
+
+# Usage
+
+function Help {
+    Write-Output "`nUsage: ./ChatGen [commands]
+
+    Available commands:
+
+    -id 123456
+        The Twitch VOD id number, e.g. 123456.
+
+    -start 01:02:34
+        Start time, e.g. 1 hour 2 minutes and 34 seconds of the VOD.
+
+    -end 02:03:55
+        End time, e.g. 2 hours 3 minutes and 55 seconds of the VOD.
+
+    -name `"My Project`"
+        [Optional] Include your custom project name in the output filenames."
+}
 
 # Sanity check
 
-Write-Output "[ChatGen] Version 1.1 by Strom"
+Write-Output "[ChatGen] Version 1.2 by Strom"
 
 if ($twitch_dowloader_location -eq "") {
-    Write-Output "You need to provide the TwitchDownloaderCLI binary location!"
+    Help
+    Write-Output "`n[Missing config] You need to provide the TwitchDownloaderCLI binary location!"
     exit
 }
 
 if ($ffmpeg_location -eq "") {
-    Write-Output "You need to provide the ffmpeg binary location!"
+    Help
+    Write-Output "`n[Missing config] You need to provide the ffmpeg binary location!"
     exit
 }
 
 if ($id -eq $null) {
-    Write-Output "You need to provide a Twitch VOD id! (e.g. -id 123)"
+    Help
+    Write-Output "`n[Missing param] You need to provide a Twitch VOD id! (e.g. -id 123)"
     exit
 }
 
 if ($start -eq $null) {
-    Write-Output "You need to provide a start timestamp! (e.g. -start 12:34:56)"
+    Help
+    Write-Output "`n[Missing param] You need to provide a start timestamp! (e.g. -start 12:34:56)"
     exit
 }
 
 if ($start -notmatch '^(\d\d):(\d\d):(\d\d)$') {
-    Write-Output "The start timestamp is not in the correct format! (e.g. -start 12:34:56)"
+    Help
+    Write-Output "`n[Invalid param] The start timestamp is not in the correct format! (e.g. -start 12:34:56)"
     exit
 }
 
 if ($end -eq $null) {
-    Write-Output "You need to provide an end timestamp! (e.g. -end 12:34:56)"
+    Help
+    Write-Output "`n[Missing param] You need to provide an end timestamp! (e.g. -end 12:34:56)"
     exit
 }
 
 if ($end -notmatch '^(\d\d):(\d\d):(\d\d)$') {
-    Write-Output "The end timestamp is not in the correct format! (e.g. -end 12:34:56)"
+    Help
+    Write-Output "`n[Invalid param] The end timestamp is not in the correct format! (e.g. -end 12:34:56)"
     exit
 }
 
