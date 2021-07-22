@@ -22,7 +22,7 @@ param (
 # Configuration - make sure this is filled out based on your setup!
 
 # e.g. C:\Program Files\TwitchDownloader\TwitchDownloaderCLI.exe
-$twitch_dowloader_location = ""
+$twitch_downloader_location = ""
 # e.g. D:\Apps\ffmpeg\bin\ffmpeg.exe
 $ffmpeg_location = ""
 
@@ -48,9 +48,9 @@ function Help {
 
 # Sanity check
 
-Write-Output "[ChatGen] Version 1.2 by Strom"
+Write-Output "[ChatGen] Version 1.2.1 by Strom"
 
-if ($twitch_dowloader_location -eq "") {
+if ($twitch_downloader_location -eq "") {
     Help
     Write-Output "`n[Missing config] You need to provide the TwitchDownloaderCLI binary location!"
     exit
@@ -118,10 +118,10 @@ $vide_name = $file_name + ".mp4"
 
 Write-Output "[ChatGen] Starting chat download ..."
 
-&$twitch_dowloader_location --ffmpeg-path $ffmpeg_location -m ChatDownload -o $json_name -u $id -b $start_secs -e $end_secs
+&$twitch_downloader_location --ffmpeg-path $ffmpeg_location -m ChatDownload -o $json_name -u $id -b $start_secs -e $end_secs
 
 Write-Output "`n[ChatGen] Starting chat render ..."
 
-&$twitch_dowloader_location --ffmpeg-path $ffmpeg_location -m ChatRender -o $vide_name -i $json_name -h 1440 -w 720 --framerate 60 --font-size 24
+&$twitch_downloader_location --ffmpeg-path $ffmpeg_location -m ChatRender -o $vide_name -i $json_name -h 1440 -w 720 --framerate 60 --font-size 24
 
 Write-Output "`n[ChatGen] All done! :)"
