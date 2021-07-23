@@ -48,7 +48,7 @@ function Help {
 
 # Sanity check
 
-Write-Output "[ChatGen] Version 1.2.1 by Strom"
+Write-Output "[ChatGen] Version 1.2.2 by Strom"
 
 if ($twitch_downloader_location -eq "") {
     Help
@@ -122,6 +122,6 @@ Write-Output "[ChatGen] Starting chat download ..."
 
 Write-Output "`n[ChatGen] Starting chat render ..."
 
-&$twitch_downloader_location --ffmpeg-path $ffmpeg_location -m ChatRender -o $vide_name -i $json_name -h 1440 -w 720 --framerate 60 --font-size 24
+&$twitch_downloader_location --ffmpeg-path $ffmpeg_location -m ChatRender -o $vide_name -i $json_name -h 1440 -w 720 --framerate 60 --font-size 24 --background-color "#000000"
 
 Write-Output "`n[ChatGen] All done! :)"
