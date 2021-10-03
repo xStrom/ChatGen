@@ -13,6 +13,7 @@
 # limitations under the License.
 
 param (
+    $get,
     $name,
     $id,
     $start,
@@ -33,6 +34,9 @@ function Help {
 
     Available commands:
 
+    -get chat
+        What to download, either 'chat' or 'video'.
+
     -id 123456
         The Twitch VOD id number, e.g. 123456.
 
@@ -48,7 +52,7 @@ function Help {
 
 # Sanity check
 
-Write-Output "[EzTwitch] Version 1.2.2 by Strom"
+Write-Output "[EzTwitch] Version 2.0.0 by Strom"
 
 if ($twitch_downloader_location -eq "") {
     Help
@@ -59,6 +63,18 @@ if ($twitch_downloader_location -eq "") {
 if ($ffmpeg_location -eq "") {
     Help
     Write-Output "`n[Missing config] You need to provide the ffmpeg binary location!"
+    exit
+}
+
+if ($get -eq $null) {
+    Help
+    Write-Output "`n[Missing param] You need to choose what to download! (e.g. -get chat)"
+    exit
+}
+
+if ($get -notmatch '^(chat|video)$') {
+    Help
+    Write-Output "`n[Invalid param] Unrecognized get request! (e.g. -get chat)"
     exit
 }
 
@@ -106,7 +122,7 @@ $end_m = [int]$end_match.Groups[2].Value
 $end_s = [int]$end_match.Groups[3].Value
 $end_secs = $end_h * 3600 + $end_m * 60 + $end_s
 
-$file_name = [string]$start_h + "." + [string]$start_m + "." + [string]$start_s + " - " + [string]$end_h + "." + [string]$end_m + "." + [string]$end_s
+$file_name = $get + " " + [string]$start_h + "." + [string]$start_m + "." + [string]$start_s + " - " + [string]$end_h + "." + [string]$end_m + "." + [string]$end_s
 if ($name -ne $null) {
     $file_name = $name + " " + $file_name
 } else {
@@ -116,12 +132,18 @@ if ($name -ne $null) {
 $json_name = $file_name + ".json"
 $vide_name = $file_name + ".mp4"
 
-Write-Output "[EzTwitch] Starting chat download ..."
+if ($get -eq "chat") {
+    Write-Output "[EzTwitch] Starting chat download ..."
 
-&$twitch_downloader_location --ffmpeg-path $ffmpeg_location -m ChatDownload -o $json_name -u $id -b $start_secs -e $end_secs
+    &$twitch_downloader_location --ffmpeg-path $ffmpeg_location -m ChatDownload -o $json_name -u $id -b $start_secs -e $end_secs
 
-Write-Output "`n[EzTwitch] Starting chat render ..."
+    Write-Output "`n[EzTwitch] Starting chat render ..."
 
-&$twitch_downloader_location --ffmpeg-path $ffmpeg_location -m ChatRender -o $vide_name -i $json_name -h 1440 -w 720 --framerate 60 --font-size 24 --background-color "#000000"
+    &$twitch_downloader_location --ffmpeg-path $ffmpeg_location -m ChatRender -o $vide_name -i $json_name -h 1440 -w 720 --framerate 60 --font-size 24 --background-color "#000000"
+} elseif ($get -eq "video") {
+     Write-Output "[EzTwitch] Starting video download ..."
+
+    &$twitch_downloader_location --ffmpeg-path $ffmpeg_location -m VideoDownload -o $vide_name -u $id -b $start_secs -e $end_secs -q "1080p60"
+}
 
 Write-Output "`n[EzTwitch] All done! :)"
