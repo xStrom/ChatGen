@@ -29,7 +29,7 @@ $ffmpeg_location = ""
 # Usage
 
 function Help {
-    Write-Output "`nUsage: ./ChatGen [commands]
+    Write-Output "`nUsage: ./EzTwitch [commands]
 
     Available commands:
 
@@ -48,7 +48,7 @@ function Help {
 
 # Sanity check
 
-Write-Output "[ChatGen] Version 1.2.2 by Strom"
+Write-Output "[EzTwitch] Version 1.2.2 by Strom"
 
 if ($twitch_downloader_location -eq "") {
     Help
@@ -116,12 +116,12 @@ if ($name -ne $null) {
 $json_name = $file_name + ".json"
 $vide_name = $file_name + ".mp4"
 
-Write-Output "[ChatGen] Starting chat download ..."
+Write-Output "[EzTwitch] Starting chat download ..."
 
 &$twitch_downloader_location --ffmpeg-path $ffmpeg_location -m ChatDownload -o $json_name -u $id -b $start_secs -e $end_secs
 
-Write-Output "`n[ChatGen] Starting chat render ..."
+Write-Output "`n[EzTwitch] Starting chat render ..."
 
 &$twitch_downloader_location --ffmpeg-path $ffmpeg_location -m ChatRender -o $vide_name -i $json_name -h 1440 -w 720 --framerate 60 --font-size 24 --background-color "#000000"
 
-Write-Output "`n[ChatGen] All done! :)"
+Write-Output "`n[EzTwitch] All done! :)"

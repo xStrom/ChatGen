@@ -1,6 +1,6 @@
-# ChatGen
+# EzTwitch
 
-This is a simple little script I wrote to help a friend render some Twitch VOD chats.
+This is a simple little script I wrote to help a friend with downloading Twitch VODs and their chats.
 
 ## Requirements
 
@@ -15,7 +15,7 @@ You need to have TwitchDownloader CLI installed and the binary location configur
 ## Usage
 
 ```
-ChatGen [commands]
+EzTwitch [commands]
 
     Available commands:
 
