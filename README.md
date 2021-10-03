@@ -19,6 +19,9 @@ EzTwitch [commands]
 
     Available commands:
 
+    -get chat
+        What to download, either 'chat' or 'video'.
+
     -id 123456
         The Twitch VOD id number, e.g. 123456.
 
