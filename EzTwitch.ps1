@@ -66,7 +66,7 @@ if ($ffmpeg_location -eq "") {
     exit
 }
 
-if ($get -eq $null) {
+if ($null -eq $get) {
     Help
     Write-Output "`n[Missing param] You need to choose what to download! (e.g. -get chat)"
     exit
@@ -78,13 +78,13 @@ if ($get -notmatch '^(chat|video)$') {
     exit
 }
 
-if ($id -eq $null) {
+if ($null -eq $id) {
     Help
     Write-Output "`n[Missing param] You need to provide a Twitch VOD id! (e.g. -id 123)"
     exit
 }
 
-if ($start -eq $null) {
+if ($null -eq $start) {
     Help
     Write-Output "`n[Missing param] You need to provide a start timestamp! (e.g. -start 12:34:56)"
     exit
@@ -96,7 +96,7 @@ if ($start -notmatch '^(\d\d):(\d\d):(\d\d)$') {
     exit
 }
 
-if ($end -eq $null) {
+if ($null -eq $end) {
     Help
     Write-Output "`n[Missing param] You need to provide an end timestamp! (e.g. -end 12:34:56)"
     exit
@@ -123,7 +123,7 @@ $end_s = [int]$end_match.Groups[3].Value
 $end_secs = $end_h * 3600 + $end_m * 60 + $end_s
 
 $file_name = $get + " " + [string]$start_h + "." + [string]$start_m + "." + [string]$start_s + " - " + [string]$end_h + "." + [string]$end_m + "." + [string]$end_s
-if ($name -ne $null) {
+if ($null -ne $name) {
     $file_name = $name + " " + $file_name
 } else {
     $file_name = [string]$id + " " + $file_name
