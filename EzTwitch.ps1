@@ -52,7 +52,7 @@ function Help {
 
 # Sanity check
 
-Write-Output "[EzTwitch] Version 2.0.0 by Strom"
+Write-Output "[EzTwitch] Version 2.1.0 by Strom"
 
 if ($twitch_downloader_location -eq "") {
     Help
@@ -135,15 +135,15 @@ $vide_name = $file_name + ".mp4"
 if ($get -eq "chat") {
     Write-Output "[EzTwitch] Starting chat download ..."
 
-    &$twitch_downloader_location --ffmpeg-path $ffmpeg_location -m ChatDownload -o $json_name -u $id -b $start_secs -e $end_secs
+    &$twitch_downloader_location chatdownload -o $json_name -u $id -b $start_secs -e $end_secs
 
     Write-Output "`n[EzTwitch] Starting chat render ..."
 
-    &$twitch_downloader_location --ffmpeg-path $ffmpeg_location -m ChatRender -o $vide_name -i $json_name -h 1440 -w 720 --framerate 60 --font-size 24 --background-color "#000000"
+    &$twitch_downloader_location chatrender --ffmpeg-path $ffmpeg_location -o $vide_name -i $json_name -h 1440 -w 720 --framerate 60 --font-size 24 --background-color "#000000"
 } elseif ($get -eq "video") {
      Write-Output "[EzTwitch] Starting video download ..."
 
-    &$twitch_downloader_location --ffmpeg-path $ffmpeg_location -m VideoDownload -o $vide_name -u $id -b $start_secs -e $end_secs -q "1080p60"
+    &$twitch_downloader_location videodownload --ffmpeg-path $ffmpeg_location -o $vide_name -u $id -b $start_secs -e $end_secs -q "1080p60"
 }
 
 Write-Output "`n[EzTwitch] All done! :)"
